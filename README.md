@@ -39,3 +39,23 @@ in building such a system.
 ## Useful links
 - [node-service-ankr](https://www.ankr.com/rpc/eth/)
 - [json-rpc-methods](https://ethereum.org/en/developers/docs/apis/json-rpc/#json-rpc-methods)
+
+### Note Challenges:
+
+    1. package "ethclient" 
+    Does not let you get information about sender("from") easily
+    you need to use info about ChainID, to get latest signer, 
+    and then use signer to get Sender.
+        Ex:
+            types.Sender(types.LatestSignerForChainID(tx.ChainId()), tx)
+
+    2. Addresses in HEX
+    Address cannot be compared normally, each digit have different capitalization.
+
+        expected address from the assignment:
+            0x28c6c06298d514db089934071355e5743bf21d60
+      
+        actual address data:
+            0x28C6c06298d514Db089934071355E5743bf21d60
+    
+    I need to use strings.EqualFold() for this to work.
