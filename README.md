@@ -59,3 +59,7 @@ in building such a system.
             0x28C6c06298d514Db089934071355E5743bf21d60
     
     I need to use strings.EqualFold() for this to work.
+
+    3. Insert data to MongoDB
+    Data in JSON format cannot insert into MongoDB directly,
+    It needs to be converted into BSON format.
