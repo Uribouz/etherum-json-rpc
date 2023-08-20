@@ -35,32 +35,6 @@ func NewEthRunner(ctx context.Context) (client *ethRunner,err error) {
 	return &ethRunner{ctx:ctx},nil
 }
 
-func (e ethRunner)PrintInfoTransactions(address string, blockNo... int64) {
-    for _, each := range blockNo {
-		e.PrintInfoTransaction(address, each)
-	}
-}
-
-func (e ethRunner)PrintInfoTransaction(address string, blockNo int64) {
-	blockNum := big.NewInt(blockNo)
-	blocks, err := rpcClient.BlockByNumber(e.ctx, blockNum)
-	if err != nil {
-		fmt.Printf("cannot do BlockByHash, %v", err)
-		return
-	}
-	trans := blocks.Transactions()
-	for _, each := range trans {
-		from, err := types.Sender(types.LatestSignerForChainID(each.ChainId()), each)
-		if err != nil {
-			fmt.Printf("cannot do Sender, %v", err)
-			return
-		}
-		if strings.EqualFold(from.String(), address) {
-			fmt.Printf("Hash: %v, From: %v, To: %v, Value: %v\n", each.Hash(), from.String(), each.To(), each.Value())
-		}
-	}
-}
-
 func (e ethRunner) GetJsonTransactionByBlocks(address string, blockNo... int64) ([]string, error) {
 	var result []string
     for _, each := range blockNo {
