@@ -12,7 +12,10 @@ import (
 var dbClient *mongo.Client
 
 //Unsafe practices, should be using certificates, or encrypted password
-const connection_string = "mongodb+srv://ball-database-mongodb-usr:ball123@cluster0.rsu0js8.mongodb.net/?retryWrites=true&w=majority"
+const (
+	connection_string = "mongodb+srv://ball-database-mongodb-usr:ball123@cluster0.rsu0js8.mongodb.net/?retryWrites=true&w=majority"
+	databaseName = "ethereum-block"
+)
 
 func init() {
 	serverAPI := options.ServerAPI(options.ServerAPIVersion1)
@@ -37,6 +40,6 @@ func Close() {
 		}
 	} 
 }
-func GetDBClient() (*mongo.Client) {
-	return dbClient
+func getDB() (*mongo.Database) {
+	return dbClient.Database(databaseName)
 }
