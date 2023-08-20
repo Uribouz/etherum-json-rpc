@@ -60,7 +60,8 @@ func (e ethRunner) GetJsonTransaction(address string, blockNo int64) ([]string, 
 		if err != nil {
 			return nil, fmt.Errorf("cannot do Sender, %v", err)
 		}
-		if !strings.EqualFold(from.String(), address) {
+		if (!strings.EqualFold(from.String(), address) &&
+		 !strings.EqualFold(each.To().String(), address) ) {
 			continue
 		}
 		data, err := each.MarshalJSON()
