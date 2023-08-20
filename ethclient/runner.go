@@ -13,29 +13,35 @@ import (
 var rpcClient *ethclient.Client
 const url = "https://rpc.ankr.com/eth"  // ethereum serviceNode
 
-type ethClient struct {
-	ctx context.Context
-}
-
 func init() {
 	var err error
 	rpcClient, err = ethclient.Dial(url)
 	if err != nil {
 		panic(err)
 	}
+	fmt.Println("EthClient: Connection established.")
 }
 
-func NewEthClient(ctx context.Context) (client *ethClient,err error) {
-	return &ethClient{ctx:ctx},nil
+func Close() {
+	if rpcClient != nil {
+		rpcClient.Close()
+	}
 }
 
-func (e ethClient)PrintInfoTransactions(address string, blockNo... int64) {
+type ethRunner struct {
+	ctx context.Context
+}
+func NewEthRunner(ctx context.Context) (client *ethRunner,err error) {
+	return &ethRunner{ctx:ctx},nil
+}
+
+func (e ethRunner)PrintInfoTransactions(address string, blockNo... int64) {
     for _, each := range blockNo {
 		e.PrintInfoTransaction(address, each)
 	}
 }
 
-func (e ethClient)PrintInfoTransaction(address string, blockNo int64) {
+func (e ethRunner)PrintInfoTransaction(address string, blockNo int64) {
 	blockNum := big.NewInt(blockNo)
 	blocks, err := rpcClient.BlockByNumber(e.ctx, blockNum)
 	if err != nil {
