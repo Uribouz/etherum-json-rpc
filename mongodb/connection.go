@@ -14,7 +14,6 @@ var dbClient *mongo.Client
 //Unsafe practices, should be using certificates, or encrypted password
 const (
 	connection_string = "mongodb+srv://ball-database-mongodb-usr:ball123@cluster0.rsu0js8.mongodb.net/?retryWrites=true&w=majority"
-	databaseName = "ethereum-block"
 )
 
 func init() {
@@ -39,7 +38,4 @@ func Close() {
 			panic(err)
 		}
 	} 
-}
-func getDB() (*mongo.Database) {
-	return dbClient.Database(databaseName)
 }

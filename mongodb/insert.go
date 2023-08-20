@@ -12,9 +12,10 @@ const (
 )
 type Inserter struct {
 	ctx context.Context
+	databaseName string
 }
-func NewInserter (ctx context.Context) Inserter {
-	return Inserter{ctx:ctx}
+func NewInserter (databaseName string, ctx context.Context) Inserter {
+	return Inserter{ctx:ctx, databaseName:databaseName}
 }
 
 func (i Inserter) InsertJsonDataTransactions(data []string) error {
@@ -37,7 +38,8 @@ func (i Inserter) InsertJsonDataTransactions(data []string) error {
 
 func (i Inserter) InsertBsonDataTransactions(data []interface{}) error {
 	//TODO: Must bulk limit insert ...
-	_, err := getDB().Collection(collectionName).InsertMany(i.ctx,data);
+	db := dbClient.Database(i.databaseName)
+	_, err := db.Collection(collectionName).InsertMany(i.ctx,data);
 	if err != nil {
 		return fmt.Errorf("cannot do InsertMany, %v", err)
 	}
