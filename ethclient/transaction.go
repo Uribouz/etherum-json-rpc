@@ -19,7 +19,11 @@ func NewEthTransactionGetter(ctx context.Context) (client *ethTransactionGetter,
 func (e ethTransactionGetter) GetJsonTransactionByBlocks(address string, blockNo... int64) ([]string, error) {
 	var result []string
     for _, each := range blockNo {
-		data, err := e.GetJsonTransaction(address, each)
+		blockNumber, err := rpcClient.BlockByNumber(e.ctx,  big.NewInt(each))
+		if err != nil {
+			return nil, fmt.Errorf("cannot do BlockByHash, %v", err)
+		}
+		data, err := e.GetJsonTransaction(address, blockNumber)
 		if err != nil {
 			return nil, fmt.Errorf("cannot do GetJsonTransaction, %v", err)
 		}
@@ -28,15 +32,9 @@ func (e ethTransactionGetter) GetJsonTransactionByBlocks(address string, blockNo
 	return result, nil
 }
 
-func (e ethTransactionGetter) GetJsonTransaction(address string, blockNo int64) ([]string, error) {
-	blockNum := big.NewInt(blockNo)
-	blocks, err := rpcClient.BlockByNumber(e.ctx, blockNum)
-	if err != nil {
-		return nil, fmt.Errorf("cannot do BlockByHash, %v", err)
-	}
-	trans := blocks.Transactions()
+func (e ethTransactionGetter) GetJsonTransaction(address string, block *types.Block) ([]string, error) {
 	var result []string
-	for _, each := range trans {
+	for _, each := range block.Transactions() {
 		from, err := types.Sender(types.LatestSignerForChainID(each.ChainId()), each)
 		if err != nil {
 			return nil, fmt.Errorf("cannot do Sender, %v", err)
