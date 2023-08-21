@@ -6,6 +6,7 @@ import (
 	"math/big"
 	"strings"
 
+	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/core/types"
 )
 
@@ -30,6 +31,14 @@ func (e ethTransactionGetter) GetJsonTransactionByBlocks(address string, blockNo
 		result = append(result, data...)
 	}
 	return result, nil
+}
+
+func (e ethTransactionGetter) GetJsonTransactionByHash(address string, blockHash common.Hash) ([]string, error) {
+	block, err := rpcClient.BlockByHash(e.ctx,  blockHash)
+	if err != nil {
+		return nil, fmt.Errorf("cannot do BlockByHash, %v", err)
+	}
+	return  e.GetJsonTransaction(address, block)
 }
 
 func (e ethTransactionGetter) GetJsonTransaction(address string, block *types.Block) ([]string, error) {
