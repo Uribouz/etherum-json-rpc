@@ -63,3 +63,8 @@ in building such a system.
     3. Insert data to MongoDB
     Data in JSON format cannot insert into MongoDB directly,
     It needs to be converted into BSON format.
+
+    4. Subscribe method cannot be used on 'https'
+    Following function cannot be used when connected to https server
+        func (*ethclient.Client).SubscribeFilterLogs(ctx context.Context, q ethereum.FilterQuery, ch chan<- types.Log) (ethereum.Subscription, error)
+    TODO: need to find another service node that supports wss endpoint.

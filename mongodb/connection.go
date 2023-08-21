@@ -11,7 +11,7 @@ import (
 
 var dbClient *mongo.Client
 
-//Unsafe practices, should be using certificates, or encrypted password
+//TODO: Unsafe practices, should be using certificates, or encrypted password
 const (
 	connection_string = "mongodb+srv://ball-database-mongodb-usr:ball123@cluster0.rsu0js8.mongodb.net/?retryWrites=true&w=majority"
 )

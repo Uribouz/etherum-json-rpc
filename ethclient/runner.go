@@ -7,6 +7,7 @@ import (
 )
 
 var rpcClient *ethclient.Client
+//TDOO: use wss client instead.
 const url = "https://rpc.ankr.com/eth"  // ethereum serviceNode
 
 func init() {
