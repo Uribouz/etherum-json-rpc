@@ -7,10 +7,10 @@ import (
 	"log"
 )
 
-func DoSubscribeAddress(parentCtx context.Context, address string) {
+func DoSubscribeAddress(parentCtx context.Context, address... string) {
 	ctx, ctxCancel := context.WithCancel(parentCtx)
 	defer ctxCancel()
-    subscriber, err := ethclient.NewHashSubscriber(ctx, address)
+    subscriber, err := ethclient.NewHashSubscriber(ctx, address...)
 	if err != nil {
 		log.Fatal(err)
 	}
