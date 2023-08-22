@@ -13,7 +13,10 @@ import (
 type subscriber struct {
 	ctx context.Context
 	chDataIn	chan types.Log
-	ChDataOut  	chan common.Hash
+	ChDataOut  	chan struct {
+					common.Address
+					common.Hash
+				}
 	ethereum.Subscription
 }
 
@@ -31,7 +34,10 @@ func NewHashSubscriber(ctx context.Context, addresses ...string) (client subscri
 	return subscriber{
 		ctx: 				ctx,
 		chDataIn: 			chDataIn,
-		ChDataOut: 			make(chan common.Hash),
+		ChDataOut: 			make(chan struct {
+									common.Address
+									common.Hash
+								}),
 		Subscription: 		sub,
 	}, nil
 }
@@ -49,7 +55,9 @@ func (e *subscriber) Subscribe() {
             return
         case data := <-e.chDataIn:
             log.Printf("receive data: %v\n", data)
-			e.ChDataOut <- data.BlockHash
+			e.ChDataOut <- struct{common.Address; common.Hash}{
+									data.Address, data.BlockHash,
+								}
         }
     }
 }

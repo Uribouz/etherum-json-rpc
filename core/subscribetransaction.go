@@ -23,7 +23,7 @@ func DoSubscribeAddress(parentCtx context.Context, address string) {
 
 	//Implements
 	for data := range subscriber.ChDataOut {
-		transactions, err := ethRunner.GetJsonTransactionByHash(address, data)
+		transactions, err := ethRunner.GetJsonTransactionByHash(data.Address.String(), data.Hash)
 		if err != nil {
 			log.Fatal(err)
 		}
