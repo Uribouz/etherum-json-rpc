@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"etherum-json-rpc/core"
 	"etherum-json-rpc/ethclient"
 	"etherum-json-rpc/mongodb"
@@ -13,6 +14,6 @@ func main() {
     defer ethclient.Close()
     defer mongodb.Close()
     // core.DoReadAndInsertTransaction(ADDRESS_HASHED, BLOCK_NUMERS...)
-
-    core.DoSubscribeAddress(ADDRESS_HASHED)
+    ctx := context.Background()
+    core.DoSubscribeAddress(ctx, ADDRESS_HASHED)
 }

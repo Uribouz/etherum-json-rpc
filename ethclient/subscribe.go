@@ -11,6 +11,7 @@ import (
 )
 
 type subscriber struct {
+	ctx context.Context
 	chDataIn	chan types.Log
 	ChDataOut  	chan common.Hash
 	ethereum.Subscription
@@ -28,6 +29,7 @@ func NewHashSubscriber(ctx context.Context, addresses ...string) (client subscri
 		return subscriber{}, fmt.Errorf("cannot do SubscribeFilterLogs, %v", err);
 	}
 	return subscriber{
+		ctx: 				ctx,
 		chDataIn: 			chDataIn,
 		ChDataOut: 			make(chan common.Hash),
 		Subscription: 		sub,
@@ -35,10 +37,16 @@ func NewHashSubscriber(ctx context.Context, addresses ...string) (client subscri
 }
 
 func (e *subscriber) Subscribe() {
+	defer close(e.ChDataOut)
+	defer e.Unsubscribe()
 	for {
         select {
+		case <-e.ctx.Done():
+            log.Printf("Subscribe: receive context done")
+			return
         case err := <-e.Err():
-            log.Fatal(err)
+            log.Printf("Subscribe: receive err %v \n", err)
+            return
         case data := <-e.chDataIn:
             log.Printf("receive data: %v\n", data)
 			e.ChDataOut <- data.BlockHash
