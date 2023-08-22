@@ -7,6 +7,13 @@ import (
 	"fmt"
 )
 
+func DoMultipleSubsctibeAddress(parentCtx context.Context, address... string) error {
+	for i:=0; i<= WORKER_TOTAL_NUM; i++ {
+
+	}
+	return nil
+}
+
 func DoSubscribeAddress(parentCtx context.Context, address... string) error {
 	ctx, ctxCancel := context.WithCancel(parentCtx)
 	defer ctxCancel()
