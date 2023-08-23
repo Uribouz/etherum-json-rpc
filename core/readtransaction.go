@@ -8,6 +8,10 @@ import (
 	"log"
 )
 
+//DoReadAndInsertTransaction usage example
+// var ADDRESS_HASHED = "0x28c6c06298d514db089934071355e5743bf21d60"
+// var BLOCK_NUMERS = []int64{17065470, 17065471}
+// core.DoReadAndInsertTransaction(ctx, ADDRESS_HASHED, BLOCK_NUMERS...)
 
 func DoReadAndInsertTransaction(ctx context.Context, address string, blockNo ...int64) {
 	ethRunner, err := ethclient.NewEthTransactionGetter(ctx)

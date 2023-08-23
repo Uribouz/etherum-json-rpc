@@ -11,8 +11,6 @@ import (
 	"log"
 )
 
-// var ADDRESS_HASHED = "0x28c6c06298d514db089934071355e5743bf21d60"
-var BLOCK_NUMERS = []int64{17065470, 17065471}
 
 func main() {
 
@@ -32,6 +30,5 @@ func main() {
 
     //Running
     ctx := context.Background()
-    core.DoReadAndInsertTransaction(ctx, data[0], BLOCK_NUMERS...)
-    // core.DoMultipleSubscribeAddress(ctx, data...)
+    core.DoMultipleSubscribeAddress(ctx, data...)
 }
