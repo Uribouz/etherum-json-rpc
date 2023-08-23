@@ -5,7 +5,7 @@ import (
 	"os"
 )
 
-const FILE_NAME = "mockdata/addresses.json"
+const FILE_NAME = "addresses.json"
 
 type fileReader struct {
 	filename string
