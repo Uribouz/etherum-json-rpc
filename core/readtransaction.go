@@ -23,7 +23,6 @@ func DoReadAndInsertTransaction(ctx context.Context, address string, blockNo ...
 	if err != nil {
 		log.Fatal(err)
 	}
-	// fmt.Printf("%v\n", strings.Join(transactions,","))
 	inserter := mongodb.NewInserter(config.GetDatabaseName(), ctx)
 	if err := inserter.InsertJsonDataTransactions(transactions); err != nil {
 		log.Fatal(err)
