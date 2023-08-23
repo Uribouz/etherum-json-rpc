@@ -2,6 +2,7 @@ package mongodb
 
 import (
 	"context"
+	"etherum-json-rpc/config"
 	"fmt"
 
 	"go.mongodb.org/mongo-driver/bson"
@@ -11,12 +12,13 @@ import (
 
 var dbClient *mongo.Client
 
-//TODO: Unsafe practices, should be using certificates, or encrypted password
-const (
-	connection_string = "mongodb+srv://ball-database-mongodb-usr:ball123@cluster0.rsu0js8.mongodb.net/?retryWrites=true&w=majority"
-)
-
 func init() {
+	connection_string := fmt.Sprintf("mongodb+srv://%s:%s@%s/?retryWrites=true&w=majority", 
+		config.GetDatabaseUser(),
+		config.GetDatabasePassword(),
+		config.GetDatabaseHost(),
+	)
+
 	serverAPI := options.ServerAPI(options.ServerAPIVersion1)
 	opts := options.Client().ApplyURI(connection_string).SetServerAPIOptions(serverAPI)
 	// Create a new client and connect to the server

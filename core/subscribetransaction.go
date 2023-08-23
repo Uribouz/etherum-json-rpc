@@ -3,6 +3,7 @@ package core
 import (
 	"context"
 	"etherum-json-rpc/chunker"
+	"etherum-json-rpc/config"
 	"etherum-json-rpc/ethclient"
 	"etherum-json-rpc/mongodb"
 	"fmt"
@@ -12,7 +13,7 @@ import (
 )
 
 func DoMultipleSubscribeAddress(ctx context.Context, address... string) error {
-	chunkAddresses := chunker.Chunk(WORKER_TOTAL_NUM, address)
+	chunkAddresses := chunker.Chunk(config.GetWorkerTotalNum(), address)
 	var wg sync.WaitGroup
 	for i, each :=range chunkAddresses {
 		wg.Add(1)
@@ -43,7 +44,7 @@ func DoSubscribeAddress(parentCtx context.Context, address... string) error {
 		return fmt.Errorf("cannot NewEthTransactionGetter, %v", err)
 	}
 
-	inserter := mongodb.NewInserter(DATABASE_NAME, ctx)
+	inserter := mongodb.NewInserter(config.GetDatabaseName(), ctx)
 	for data := range subscriber.ChDataOut {
 		transactions, err := ethRunner.GetJsonTransactionByHash(data.Address.String(), data.Hash)
 		if err != nil {

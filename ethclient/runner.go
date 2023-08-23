@@ -1,18 +1,17 @@
 package ethclient
 
 import (
+	"etherum-json-rpc/config"
 	"fmt"
 
 	"github.com/ethereum/go-ethereum/ethclient"
 )
 
 var rpcClient *ethclient.Client
-//TDOO: use wss client instead.
-const url = "https://rpc.ankr.com/eth"  // ethereum serviceNode
 
 func init() {
 	var err error
-	rpcClient, err = ethclient.Dial(url)
+	rpcClient, err = ethclient.Dial(config.GetEthNodeUrl())
 	if err != nil {
 		panic(err)
 	}

@@ -22,6 +22,6 @@ func main() {
         log.Fatal(err);
     }
     ctx := context.Background()
-    // core.DoReadAndInsertTransaction(ctx, data[0], BLOCK_NUMERS...)
-    core.DoMultipleSubscribeAddress(ctx, data...)
+    core.DoReadAndInsertTransaction(ctx, data[0], BLOCK_NUMERS...)
+    // core.DoMultipleSubscribeAddress(ctx, data...)
 }
