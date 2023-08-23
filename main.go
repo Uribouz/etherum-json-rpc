@@ -15,16 +15,20 @@ var BLOCK_NUMERS = []int64{17065470, 17065471}
 
 func main() {
 
-    
+    //Initialize
     ethclient.Init()
     defer ethclient.Close()
     mongodb.Init()
     defer mongodb.Close()
+
+    //Get Datasource
     dataSource := mockdata.NewFileReader()
     data, err := adapter.JsonDataToAddresses(dataSource)
     if err != nil {
         log.Fatal(err);
     }
+
+    //Running
     ctx := context.Background()
     core.DoReadAndInsertTransaction(ctx, data[0], BLOCK_NUMERS...)
     // core.DoMultipleSubscribeAddress(ctx, data...)
