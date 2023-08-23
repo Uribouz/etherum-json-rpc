@@ -31,11 +31,22 @@ in building such a system.
 
 ## Installation guidelines: (For windows)
     1. Install Go
-    2. Install go-ethereum package 
-        $ go get -u github.com/ethereum/go-ethereum/ethclient
+    2. Install packages
+        $ go get github.com/ethereum/go-ethereum/ethclient
+        $ go get github.com/joho/godotenv
+        $ go get github.com/stretchr/testify
+        $ go get go.mongodb.org/mongo-driver
     3. Install tdm-gcc
         https://jmeubank.github.io/tdm-gcc/
-        
+
+
+## Instructions: How to run the system
+    1. Initialize file ".env" eg. using format from ".env_example"
+    2. Modify file "addresses.json" with list of addresses you want to monitor.
+    3. Run the monitoring program with the following command
+        $ go run main.go
+
+
 ## Useful links
 - [node-service-ankr](https://www.ankr.com/rpc/eth/)
 - [json-rpc-methods](https://ethereum.org/en/developers/docs/apis/json-rpc/#json-rpc-methods)
@@ -67,4 +78,13 @@ in building such a system.
     4. Subscribe method cannot be used on 'https'
     Following function cannot be used when connected to https server
         func (*ethclient.Client).SubscribeFilterLogs(ctx context.Context, q ethereum.FilterQuery, ch chan<- types.Log) (ethereum.Subscription, error)
-    TODO: need to find another service node that supports wss endpoint.
+    have to find another service node that supports wss endpoint.
+
+    5. Add 'chunker' package 
+        To handle large number of addresses by distribute the list of addresses to each worker equally.
+    
+    6. Add 'adapter' package
+        To handle input addresses as JSON format.
+    
+    7. Add 'config' package
+        To hide credentials information from the project.
