@@ -36,6 +36,24 @@ func TestChunk(t *testing.T) {
 				},
 			},
 		},
+		{
+			name: "Test Chunk 2",
+			input: struct{
+				workerNum int
+				data []string
+			}{
+				workerNum: 5,
+				data: []string{"ADDR1", "ADDR2"},
+			},
+			expected: struct {
+				data [][]string
+			}{
+				data: [][]string{
+					{"ADDR1"},
+					{"ADDR2"},
+				},
+			},
+		},
 	}
 	for _, each := range testCases {
 		actual := Chunk(each.input.workerNum, each.input.data)
