@@ -14,7 +14,11 @@ import (
 var BLOCK_NUMERS = []int64{17065470, 17065471}
 
 func main() {
+
+    
+    ethclient.Init()
     defer ethclient.Close()
+    mongodb.Init()
     defer mongodb.Close()
     dataSource := mockdata.NewFileReader()
     data, err := adapter.JsonDataToAddresses(dataSource)
