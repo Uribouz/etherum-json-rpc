@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"etherum-json-rpc/adapter"
+	"etherum-json-rpc/config"
 	"etherum-json-rpc/core"
 	"etherum-json-rpc/ethclient"
 	"etherum-json-rpc/mockdata"
@@ -16,6 +17,7 @@ var BLOCK_NUMERS = []int64{17065470, 17065471}
 func main() {
 
     //Initialize
+    config.Init()
     ethclient.Init()
     defer ethclient.Close()
     mongodb.Init()
