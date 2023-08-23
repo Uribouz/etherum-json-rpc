@@ -5,7 +5,6 @@ import (
 	"etherum-json-rpc/core"
 	"etherum-json-rpc/ethclient"
 	"etherum-json-rpc/mongodb"
-	"log"
 )
 
 var ADDRESS_HASHED = "0x28c6c06298d514db089934071355e5743bf21d60"
@@ -16,8 +15,5 @@ func main() {
     defer mongodb.Close()
     // core.DoReadAndInsertTransaction(ADDRESS_HASHED, BLOCK_NUMERS...)
     ctx := context.Background()
-    err := core.DoSubscribeAddress(ctx, ADDRESS_HASHED)
-    if err != nil {
-        log.Fatalf("cannot do DoSubscribeAddress, %v",err)
-    }
+    core.DoMultipleSubscribeAddress(ctx, ADDRESS_HASHED)
 }

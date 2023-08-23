@@ -2,15 +2,30 @@ package core
 
 import (
 	"context"
+	"etherum-json-rpc/chunker"
 	"etherum-json-rpc/ethclient"
 	"etherum-json-rpc/mongodb"
 	"fmt"
+	"log"
+	"strings"
+	"sync"
 )
 
-func DoMultipleSubsctibeAddress(parentCtx context.Context, address... string) error {
-	for i:=0; i<= WORKER_TOTAL_NUM; i++ {
-
+func DoMultipleSubscribeAddress(ctx context.Context, address... string) error {
+	chunkAddresses := chunker.Chunk(WORKER_TOTAL_NUM, address)
+	var wg sync.WaitGroup
+	for i, each :=range chunkAddresses {
+		wg.Add(1)
+		go func(idx int, data []string) {
+			defer wg.Done()
+			log.Printf("Start worker no. %d, with addresses: %s\n", idx, strings.Join(data,","))
+			err := DoSubscribeAddress(ctx, data...)
+			if err != nil {
+				log.Printf("worker no. %d stopped, got an error: %s\n", idx, err.Error())
+			}
+		}(i, each)
 	}
+	wg.Wait()
 	return nil
 }
 
