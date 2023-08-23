@@ -17,5 +17,9 @@ func Chunk(workerNum int, data []string) [][]string {
 		result[i] = data[count:count+chunkSize]
 		count += chunkSize
 	}
+	if count < totalNum {
+		i:=workerNum-1
+		result[i] = append(result[i], data[count:]...)
+	}
 	return result
 }
