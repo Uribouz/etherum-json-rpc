@@ -51,6 +51,16 @@ in building such a system.
 - [node-service-ankr](https://www.ankr.com/rpc/eth/)
 - [json-rpc-methods](https://ethereum.org/en/developers/docs/apis/json-rpc/#json-rpc-methods)
 
+### Design Documentation
+    1. Makes packages independent from each other
+    2. Make packages as shallow as possible.
+    3. Always use unit-tests to make systems reliable.
+    4. Uses 'config' package to hide confidential information, to make the system secure.
+    5. Use 'adapter' and 'mockdata' packages to mock input list of addresses, to make the system scalable.
+    6. Connection with a host outside should only connect once.
+    7. Use 'core' package as scenario runner.
+    8. Add 'chunker' package, to handle large number of addresses by distribute the list of addresses to each worker equally.
+
 ### Note Challenges:
 
     1. package "ethclient" 
@@ -79,12 +89,3 @@ in building such a system.
     Following function cannot be used when connected to https server
         func (*ethclient.Client).SubscribeFilterLogs(ctx context.Context, q ethereum.FilterQuery, ch chan<- types.Log) (ethereum.Subscription, error)
     have to find another service node that supports wss endpoint.
-
-    5. Add 'chunker' package 
-        To handle large number of addresses by distribute the list of addresses to each worker equally.
-    
-    6. Add 'adapter' package
-        To handle input addresses as JSON format.
-    
-    7. Add 'config' package
-        To hide credentials information from the project.
