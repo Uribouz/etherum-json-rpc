@@ -13,7 +13,7 @@ var BLOCK_NUMERS = []int64{17065470, 17065471}
 func main() {
     defer ethclient.Close()
     defer mongodb.Close()
-    // core.DoReadAndInsertTransaction(ADDRESS_HASHED, BLOCK_NUMERS...)
     ctx := context.Background()
+    // core.DoReadAndInsertTransaction(ctx, ADDRESS_HASHED, BLOCK_NUMERS...)
     core.DoMultipleSubscribeAddress(ctx, ADDRESS_HASHED)
 }

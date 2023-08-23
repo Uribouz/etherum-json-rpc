@@ -8,8 +8,7 @@ import (
 )
 
 
-func DoReadAndInsertTransaction(address string, blockNo ...int64) {
-	ctx := context.Background()
+func DoReadAndInsertTransaction(ctx context.Context, address string, blockNo ...int64) {
 	ethRunner, err := ethclient.NewEthTransactionGetter(ctx)
 	if err != nil {
 		log.Fatal(err)

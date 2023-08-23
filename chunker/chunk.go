@@ -1,7 +1,6 @@
 package chunker
 
 //TODO: make generic later
-//TODO: unit-test
 func Chunk(workerNum int, data []string) [][]string {
 	totalNum := len(data)
 	if totalNum <= 0 {
